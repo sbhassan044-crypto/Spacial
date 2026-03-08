@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eid Mubarak - Ramadan Vibes & Special Gift</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- External Scripts for Confetti and HTML2Canvas -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* ================= COLOR THEMES ================= */
+        :root {
+            --bg-start: #064E3B; 
+            --bg-end: #022C22;
+            --bg-alt: #047857;
+            --accent: #FBBF24; 
+            --accent-glow: rgba(251, 191, 36, 0.6);
+            --text-main: #ffffff;
+            --mosque-tint: #022C22;
+        }
+
+        body.theme-midnight {
+            --bg-start: #0f172a;
+            --bg-end: #020617;
+            --bg-alt: #1e1b4b;
+            --accent: #e2e8f0;
+            --accent-glow: rgba(226, 232, 240, 0.5);
+            --mosque-tint: #0f172a;
+        }
+
+        body.theme-sunset {
+            --bg-start: #7c2d12;
+            --bg-end: #450a0a;
+            --bg-alt: #9a3412;
+            --accent: #fde047;
+            --accent-glow: rgba(253, 224, 71, 0.6);
+            --mosque-tint: #3f0909;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, var(--bg-start), var(--bg-end), var(--bg-alt));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding: 20px 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .app-wrapper {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .theme-selector {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .theme-selector label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .theme-selector select {
+            background: transparent;
+            color: white;
+            border: none;
+            outline: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .theme-selector select option {
+            color: #000;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.4));
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            backdrop-filter: blur(15px);
+            width: 100%;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: all 0.5s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            opacity: 0.2;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .moon {
+            position: absolute;
+            top: 30px; right: 30px;
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            box-shadow: -15px 15px 0 0 var(--accent);
+            animation: float 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .mosque-bg {
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 100%;
+            z-index: 0;
+            opacity: 0.95;
+        }
+
+        .mosque-fill {
+            fill: var(--mosque-tint);
+            transition: fill 0.5s ease;
+        }
+
+        .card-content {
+            z-index: 5;
+            width: 100%;
+        }
+        
+        h1.title {
+            font-family: 'Amiri', serif;
+            font-size: 3.5rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+            text-shadow: 0 4px 15px var(--accent-glow);
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            color: #e2e8f0;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.4);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .name-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent), #d97706);
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 20px var(--accent-glow);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .btn-primary:active { transform: scale(0.95); }
+        .btn-primary:hover { transform: translateY(-3px); filter: brightness(1.1); }
+
+        .wish-result {
+            display: none;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .wish-result .name-highlight {
+            font-size: 2.2rem;
+            font-family: 'Hind Siliguri', sans-serif;
+            color: #ffffff;
+            display: block;
+            margin: 5px 0;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            word-wrap: break-word;
+        }
+
+        /* ----- UNIQUE SENDER NAME DESIGN ----- */
+        .sender-signature {
+            margin: 15px auto 25px auto;
+            position: relative;
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .sender-prefix {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            font-weight: 400;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .sender-signature-text {
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FBBF24, #fde047, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px rgba(251, 191, 36, 0.3);
+            letter-spacing: 1px;
+        }
+        /* ------------------------------------ */
+
+        .wish-message {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            min-height: 80px;
+            padding: 0 15px;
+            color: #f8fafc;
+            font-weight: 400;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-change-wish {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-change-wish:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--accent); }
+
+        .actions-wrapper {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-download { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
+        .btn-download:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
+        
+        .share-row { display: flex; gap: 10px; }
+        .btn-wa { background: #25D366; flex: 1; }
+        .btn-wa:hover { background: #1ebc5b; transform: translateY(-2px); }
+        .btn-messenger { background: #0084FF; flex: 1; }
+        .btn-messenger:hover { background: #0073e0; transform: translateY(-2px); }
+
+        .btn-gift {
+            background: linear-gradient(45deg, #f43f5e, #f59e0b);
+            color: white;
+            animation: pulse-gift 2s infinite;
+            border: 2px solid #fff;
+        }
+        .btn-gift:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .btn-reset {
+            background: transparent;
+            color: #cbd5e1;
+            box-shadow: none;
+            padding: 5px;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+        .btn-reset:hover { color: white; }
+
+        .gift-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .gift-overlay.active { display: flex; opacity: 1; }
+
+        .gift-box {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            padding: 40px 25px;
+            border-radius: 20px;
+            text-align: center;
+            color: #1e293b;
+            max-width: 90%;
+            width: 380px;
+            transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            border: 4px solid var(--accent);
+        }
+        .gift-overlay.active .gift-box { transform: scale(1); }
+        
+        .gift-icon {
+            font-size: 4.5rem; color: #f43f5e; margin-bottom: 10px; animation: bounce 2s infinite;
+        }
+        
+        .gift-title {
+            font-size: 2.2rem; 
+            color: #064E3B; 
+            margin-bottom: 5px; 
+            font-weight: 700;
+        }
+        
+        .gift-desc {
+            font-size: 1.2rem; 
+            color: #334155; 
+            margin-bottom: 25px; 
+            line-height: 1.6;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .eidi-amount {
+            background: linear-gradient(45deg, #FBBF24, #F59E0B);
+            color: #000; 
+            padding: 15px; 
+            border-radius: 12px; 
+            font-size: 1.6rem; 
+            font-weight: 700; 
+            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
+        }
+        
+        .close-gift {
+            position: absolute; top: 10px; right: 15px; font-size: 1.8rem; color: #94a3b8; cursor: pointer; transition: 0.3s;
+        }
+        .close-gift:hover { color: #f43f5e; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-gift {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(244, 63, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-8px); }
+        }
+    </style>
+</head>
+<body class="theme-ramadan" id="appBody">
+
+    <div class="app-wrapper">
+        <!-- Theme Controls -->
+        <div class="theme-selector">
+            <i class="fa-solid fa-moon"></i>
+            <label for="themeSelect">Vibes:</label>
+            <select id="themeSelect" onchange="changeTheme()">
+                <option value="ramadan">Ramadan Classic</option>
+                <option value="midnight">Midnight Moon</option>
+                <option value="sunset">Sunset Lantern</option>
+            </select>
+        </div>
+
+        <!-- The Greeting Card -->
+        <div class="card" id="greetingCard">
+            <div class="moon"></div>
+
+            <div class="mosque-bg">
+                <svg viewBox="0 0 800 200" preserveAspectRatio="none" style="width:100%; height:140px;" xmlns="http://www.w3.org/2000/svg">
+                    <path class="mosque-fill" d="M0,200 L0,150 L50,150 L50,100 L60,80 L70,100 L70,150 L200,150 C200,150 250,60 300,60 C350,60 400,150 400,150 L500,150 L500,80 L515,50 L530,80 L530,150 L650,150 C650,150 700,80 750,80 C800,80 800,150 800,150 L800,200 Z" />
+                </svg>
+            </div>
+
+            <div class="card-content">
+                <h1 class="title">Eid Mubarak</h1>
+                
+                <div id="inputSection">
+                    <p class="subtitle" style="font-family: 'Hind Siliguri', sans-serif;">কার জন্য কার্ড বানাচ্ছেন এবং আপনার নাম দিন!</p>
+                    <div class="controls">
+                        <!-- Added Sender Name Input Here -->
+                        <input type="text" id="nameInput" class="name-input" placeholder="বন্ধুর নাম (যাকে পাঠাবেন)" autocomplete="off"/>
+                        <input type="text" id="senderNameInput" class="name-input" placeholder="আপনার নাম (যিনি পাঠাচ্ছেন)" autocomplete="off"/>
+                        
+                        <button class="btn-primary" onclick="generateWish()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> কার্ড তৈরি করুন
+                        </button>
+                    </div>
+                </div>
+
+                <div id="resultSection" class="wish-result">
+                    <span class="name-highlight" id="displayName"></span> 
+                    
+                    <!-- Unique Sender Name Display -->
+                    <div class="sender-signature">
+                        <span class="sender-prefix"><i class="fa-solid fa-pen-nib"></i> ভালোবাসা ও শুভেচ্ছান্তে-</span>
+                        <div class="sender-signature-text" id="displaySenderName"></div>
+                    </div>
+                    
+                    <!-- Beautiful Bengali Quote -->
+                    <div id="wishMessage" class="wish-message">ঈদের এই পবিত্র দিনে তোমার জীবন ভরে উঠুক অনাবিল আনন্দে। মহান আল্লাহ তোমার সকল নেক আশা কবুল করুন। 🌙 ঈদ মোবারক!</div>
+                    
+                    <button class="btn-change-wish" onclick="changeWishMessage()" id="changeTextBtn">
+                        <i class="fa-solid fa-feather"></i> লেখা পরিবর্তন করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions Container -->
+        <div class="actions-wrapper" id="actionsSection">
+            <button class="btn-action btn-gift" onclick="openGift()">
+                <i class="fa-solid fa-gift"></i> স্পেশাল গিফট খুলুন 🎁
+            </button>
+
+            <button class="btn-action btn-download" onclick="downloadImage()">
+                <i class="fa-solid fa-download"></i> কার্ড সেভ করুন
+            </button>
+            
+            <div class="share-row">
+                <button class="btn-action btn-wa" onclick="shareWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </button>
+                <button class="btn-action btn-messenger" onclick="shareMessenger()">
+                    <i class="fa-brands fa-facebook-messenger"></i> Messenger
+                </button>
+            </div>
+            
+            <button class="btn-action btn-reset" onclick="resetApp()">
+                নতুন কার্ড বানান
+            </button>
+        </div>
+    </div>
+
+    <!-- Special Gift Modal -->
+    <div class="gift-overlay" id="giftOverlay">
+        <div class="gift-box">
+            <span class="close-gift" onclick="closeGift()">&times;</span>
+            <div class="gift-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <h2 class="gift-title">ঈদ মোবারক!</h2>
+            <!-- Gift Description will be dynamically updated by JS -->
+            <p class="gift-desc" id="giftDescText"></p>
+            <div class="eidi-amount">৳ ১,০০০ ভার্চুয়াল ঈদি! 💸</div>
+        </div>
+    </div>
+
+    <!-- JavaScript Functions -->
+    <script>
+        // Beautiful Bengali Quotes
+        const wishes =[
+            "ঈদের এই পবিত্র দিনে তোমার জীবন ভরে উঠুক অনাবিল আনন্দে। মহান আল্লাহ তোমার সকল নেক আশা কবুল করুন। 🌙 ঈদ মোবারক!",
+            "নতুন চাঁদ, নতুন দিন, আজ হলো খুশির দিন। ঈদ এসেছে হাসিমুখে, আনন্দ থাকুক তোমার বুকে। 🕌 ঈদ মোবারক!",
+            "ঈদের আনন্দ ছড়িয়ে পড়ুক তোমার জীবনের প্রতিটি প্রান্তে। পরিবার ও আপনজনদের নিয়ে সুন্দর কাটুক তোমার ঈদ। ✨ ঈদ মোবারক!",
+            "এক মাসের সিয়াম সাধনার পর এলো খুশির ঈদ। এই আনন্দঘন মুহূর্তে তোমার সব দুঃখ-কষ্ট দূর হয়ে যাক। 💫 ঈদ মোবারক!",
+            "দূরত্ব যতই হোক, হৃদয়ের টান কখনো কমে না। আমার অন্তরের অন্তস্তল থেকে তোমার জন্য রইলো ঈদের একরাশ ভালোবাসা। 💖 ঈদ মোবারক!"
+        ];
+        let currentWishIndex = 0;
+
+        // Load Both Names From URL on Page Load
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get("name");
+            const sender = params.get("sender");
+
+            if(name && sender){
+                document.getElementById("nameInput").value = name;
+                document.getElementById("senderNameInput").value = sender;
+                setupCard(name, sender);
+            } else if (name) {
+                // Fallback for previous links
+                document.getElementById("nameInput").value = name;
+                document.getElementById("senderNameInput").value = "তোমার বন্ধু";
+                setupCard(name, "তোমার বন্ধু");
+            }
+        };
+
+        function changeTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            document.getElementById('appBody').className = `theme-${theme}`;
+        }
+
+        function fireConfetti() {
+            const duration = 3000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors:['#FBBF24', '#ffffff', '#10b981'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors:['#FBBF24', '#ffffff', '#10b981'] });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        function setupCard(name, sender) {
+            document.getElementById('displayName').innerText = name;
+            document.getElementById('displaySenderName').innerText = sender;
+            
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('actionsSection').style.display = 'flex';
+
+            // Safe HTML injection for both names
+            document.getElementById('giftDescText').innerHTML = `প্রিয় <b style="color: #f43f5e;">${name}</b>, আপনার জন্য রইলো <b style="color: #059669;">${sender}</b> এর পক্ষ থেকে স্পেশাল ঈদ সেলামি ও অনেক অনেক ভালোবাসা!`;
+
+            fireConfetti();
+        }
+
+        // Generate the Card Data
+        function generateWish() {
+            const nameInput = document.getElementById('nameInput');
+            const senderInput = document.getElementById('senderNameInput');
+            const name = nameInput.value.trim();
+            const sender = senderInput.value.trim();
+            
+            let hasError = false;
+
+            if(!name) {
+                nameInput.style.border = "2px solid #ef4444";
+                nameInput.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.5)";
+                setTimeout(() => {
+                    nameInput.style.border = "2px solid rgba(255,255,255,0.2)";
+                    nameInput.style.boxShadow = "inset 0 2px 5px rgba(0,0,0,0.5)";
+                }, 1000);
+                hasError = true;
+            }
+
+            if(!sender) {
+                senderInput.style.border = "2px solid #ef4444";
+                senderInput.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.5)";
+                setTimeout(() => {
+                    senderInput.style.border = "2px solid rgba(255,255,255,0.2)";
+                    senderInput.style.boxShadow = "inset 0 2px 5px rgba(0,0,0,0.5)";
+                }, 1000);
+                hasError = true;
+            }
+
+            if(hasError) return;
+
+            // Update URL dynamically with both parameters
+            try {
+                let currentUrl = window.location.href.split('?')[0];
+                let shareUrl = currentUrl + "?name=" + encodeURIComponent(name) + "&sender=" + encodeURIComponent(sender);
+                window.history.pushState({}, "", shareUrl);
+            } catch (e) {
+                console.warn("URL Update failed (probably running locally).");
+            }
+
+            setupCard(name, sender);
+        }
+
+        function changeWishMessage() {
+            currentWishIndex = (currentWishIndex + 1) % wishes.length;
+            const wishEl = document.getElementById('wishMessage');
+            
+            wishEl.style.opacity = 0;
+            setTimeout(() => {
+                wishEl.innerText = wishes[currentWishIndex];
+                wishEl.style.opacity = 1;
+            }, 300);
+        }
+
+        function openGift() {
+            const modal = document.getElementById('giftOverlay');
+            modal.classList.add('active');
+            
+            confetti({
+                particleCount: 150, spread: 100, origin: { y: 0.5 },
+                colors:['#FBBF24', '#F59E0B', '#fbbf24'], shapes:['circle'], scalar: 1.2
+            });
+        }
+
+        function closeGift() {
+            document.getElementById('giftOverlay').classList.remove('active');
+        }
+
+        function downloadImage() {
+            const card = document.getElementById('greetingCard');
+            const btn = document.querySelector('.btn-download');
+            const changeBtn = document.getElementById('changeTextBtn');
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সেভ হচ্ছে...';
+            changeBtn.style.display = 'none'; 
+            
+            const originalBg = card.style.background;
+            const currentTheme = getComputedStyle(document.body).getPropertyValue('--bg-start').trim();
+            card.style.backgroundColor = currentTheme;
+
+            setTimeout(() => {
+                html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `Eid_Mubarak_From_${document.getElementById('senderNameInput').value.trim()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    btn.innerHTML = '<i class="fa-solid fa-download"></i> কার্ড সেভ করুন';
+                    changeBtn.style.display = 'inline-block';
+                    card.style.background = originalBg;
+                }).catch(err => {
+                    alert("Something went wrong with download.");
+                    btn.innerHTML = '<i class="fa-solid fa-download"></i> কার্ড সেভ করুন';
+                    changeBtn.style.display = 'inline-block';
+                    card.style.background = originalBg;
+                });
+            }, 300);
+        }
+
+        function shareWhatsApp() {
+            const name = document.getElementById('nameInput').value.trim();
+            const sender = document.getElementById('senderNameInput').value.trim();
+            const currentWish = document.getElementById('wishMessage').innerText;
+            const url = window.location.href; 
+            
+            const text = `🌙 ঈদ মোবারক ${name}! 🌙\n\n${currentWish}\n\n✨ ভালোবাসা ও শুভেচ্ছান্তে: ${sender}\n\n🎁 তোমার কার্ডটি তৈরি করো আর ভার্চুয়াল সেলামি নিয়ে নাও এখান থেকে:\n${url}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function shareMessenger() {
+            const name = document.getElementById('nameInput').value.trim();
+            const sender = document.getElementById('senderNameInput').value.trim();
+            const currentWish = document.getElementById('wishMessage').innerText;
+            const url = window.location.href; 
+            
+            const text = `🌙 ঈদ মোবারক ${name}! 🌙\n\n${currentWish}\n\n✨ ভালোবাসা ও শুভেচ্ছান্তে: ${sender}\n\n🎁 তোমার কার্ডটি তৈরি করো আর ভার্চুয়াল সেলামি নিয়ে নাও এখান থেকে:\n${url}`;
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert("মেসেজটি কপি করা হয়েছে! এখন আপনি এটি সরাসরি Messenger-এ পেস্ট করতে পারবেন।");
+                });
+            } else {
+                alert("দয়া করে লিংকটি কপি করে মেসেঞ্জারে শেয়ার করুন।");
+            }
+
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                window.location.href = `fb-messenger://share/?link=${encodeURIComponent(url)}`;
+            } else {
+                window.open('https://www.messenger.com/', '_blank');
+            }
+        }
+
+        function resetApp() {
+            document.getElementById('nameInput').value = '';
+            document.getElementById('senderNameInput').value = '';
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('actionsSection').style.display = 'none';
+            closeGift();
+            
+            try {
+                let currentUrl = window.location.href.split('?')[0];
+                window.history.pushState({}, "", currentUrl);
+            } catch (e) {
+                console.warn("Could not clear URL");
+            }
+        }
+    </script>
+</body>
+</html>
