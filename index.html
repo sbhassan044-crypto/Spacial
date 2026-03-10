@@ -2,754 +2,417 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eid Mubarak - Ramadan Vibes & Special Gift</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reward Earning App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- External Scripts for Confetti and HTML2Canvas -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
     <style>
-        /* ================= COLOR THEMES ================= */
         :root {
-            --bg-start: #064E3B; 
-            --bg-end: #022C22;
-            --bg-alt: #047857;
-            --accent: #FBBF24; 
-            --accent-glow: rgba(251, 191, 36, 0.6);
-            --text-main: #ffffff;
-            --mosque-tint: #022C22;
+            --primary: #007bff; --primary-light: #e6f2ff; --secondary: #0056b3;
+            --white: #ffffff; --bg-color: #f4f7f6; --text-main: #333333;
+            --text-muted: #777777; --gold: #ffc107; --green: #28a745; --orange: #fd7e14;
         }
-
-        body.theme-midnight {
-            --bg-start: #0f172a;
-            --bg-end: #020617;
-            --bg-alt: #1e1b4b;
-            --accent: #e2e8f0;
-            --accent-glow: rgba(226, 232, 240, 0.5);
-            --mosque-tint: #0f172a;
-        }
-
-        body.theme-sunset {
-            --bg-start: #7c2d12;
-            --bg-end: #450a0a;
-            --bg-alt: #9a3412;
-            --accent: #fde047;
-            --accent-glow: rgba(253, 224, 71, 0.6);
-            --mosque-tint: #3f0909;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(-45deg, var(--bg-start), var(--bg-end), var(--bg-alt));
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: var(--text-main);
-            overflow-x: hidden;
-            padding: 20px 0;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .app-wrapper {
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            z-index: 10;
-        }
-
-        .theme-selector {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .theme-selector label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .theme-selector select {
-            background: transparent;
-            color: white;
-            border: none;
-            outline: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .theme-selector select option {
-            color: #000;
-        }
-
-        .card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.4));
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            backdrop-filter: blur(15px);
-            width: 100%;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            min-height: 520px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: all 0.5s ease;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
-            opacity: 0.2;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .moon {
-            position: absolute;
-            top: 30px; right: 30px;
-            width: 70px; height: 70px;
-            border-radius: 50%;
-            box-shadow: -15px 15px 0 0 var(--accent);
-            animation: float 4s ease-in-out infinite;
-            z-index: 0;
-        }
-
-        .mosque-bg {
-            position: absolute;
-            bottom: -5px; left: 0;
-            width: 100%;
-            z-index: 0;
-            opacity: 0.95;
-        }
-
-        .mosque-fill {
-            fill: var(--mosque-tint);
-            transition: fill 0.5s ease;
-        }
-
-        .card-content {
-            z-index: 5;
-            width: 100%;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #e2e8f0; display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 414px; height: 100vh; background-color: var(--bg-color); position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; }
         
-        h1.title {
-            font-family: 'Amiri', serif;
-            font-size: 3.5rem;
-            color: var(--accent);
-            margin-bottom: 5px;
-            text-shadow: 0 4px 15px var(--accent-glow);
-            letter-spacing: 2px;
-        }
+        /* Auth View */
+        #auth-view { padding: 40px 20px; height: 100%; display: flex; flex-direction: column; justify-content: center; background: var(--white); z-index: 100; }
+        .auth-logo { text-align: center; font-size: 50px; color: var(--primary); margin-bottom: 10px; }
+        .auth-title { text-align: center; color: var(--text-main); margin-bottom: 30px; font-size: 24px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 16px; outline: none; }
+        .input-group input:focus { border-color: var(--primary); }
+        .btn { width: 100%; padding: 15px; background: var(--primary); color: var(--white); border: none; border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn:hover:not(:disabled) { background: var(--secondary); }
+        .btn:disabled { cursor: not-allowed; opacity: 0.6; }
 
-        .subtitle {
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-            opacity: 0.9;
-            color: #e2e8f0;
-        }
-
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .name-input {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.4);
-            color: white;
-            font-size: 1.1rem;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .name-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, var(--accent), #d97706);
-            color: #000;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 5px 20px var(--accent-glow);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-
-        .btn-primary:active { transform: scale(0.95); }
-        .btn-primary:hover { transform: translateY(-3px); filter: brightness(1.1); }
-
-        .wish-result {
-            display: none;
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .wish-result .name-highlight {
-            font-size: 2.2rem;
-            font-family: 'Hind Siliguri', sans-serif;
-            color: #ffffff;
-            display: block;
-            margin: 5px 0;
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            word-wrap: break-word;
-        }
-
-        /* ----- UNIQUE SENDER NAME DESIGN ----- */
-        .sender-signature {
-            margin: 15px auto 25px auto;
-            position: relative;
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px 25px;
-            border-radius: 30px;
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-        }
-
-        .sender-prefix {
-            font-size: 0.95rem;
-            color: #cbd5e1;
-            font-weight: 400;
-            margin-bottom: 2px;
-            display: block;
-        }
-
-        .sender-signature-text {
-            font-family: 'Hind Siliguri', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #FBBF24, #fde047, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0px 4px 15px rgba(251, 191, 36, 0.3);
-            letter-spacing: 1px;
-        }
-        /* ------------------------------------ */
-
-        .wish-message {
-            font-size: 1.25rem;
-            line-height: 1.7;
-            min-height: 80px;
-            padding: 0 15px;
-            color: #f8fafc;
-            font-weight: 400;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-change-wish {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            margin-top: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-change-wish:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--accent); }
-
-        .actions-wrapper {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        .btn-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px;
-            border-radius: 12px;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+        /* Main View */
+        #main-view { display: none; flex-direction: column; height: 100%; }
+        .header { background: var(--primary); color: var(--white); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        .app-brand { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .balance-badge { background: rgba(255, 255, 255, 0.2); padding: 8px 15px; border-radius: 50px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .balance-badge i { color: var(--gold); }
         
-        .btn-download { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
-        .btn-download:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
+        /* Content Area */
+        .content-area { flex: 1; padding: 20px; overflow-y: auto; padding-bottom: 80px; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .share-row { display: flex; gap: 10px; }
-        .btn-wa { background: #25D366; flex: 1; }
-        .btn-wa:hover { background: #1ebc5b; transform: translateY(-2px); }
-        .btn-messenger { background: #0084FF; flex: 1; }
-        .btn-messenger:hover { background: #0073e0; transform: translateY(-2px); }
-
-        .btn-gift {
-            background: linear-gradient(45deg, #f43f5e, #f59e0b);
-            color: white;
-            animation: pulse-gift 2s infinite;
-            border: 2px solid #fff;
-        }
-        .btn-gift:hover { filter: brightness(1.1); transform: translateY(-2px); }
-
-        .btn-reset {
-            background: transparent;
-            color: #cbd5e1;
-            box-shadow: none;
-            padding: 5px;
-            margin-top: 5px;
-            font-size: 0.9rem;
-            text-decoration: underline;
-        }
-        .btn-reset:hover { color: white; }
-
-        .gift-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .gift-overlay.active { display: flex; opacity: 1; }
-
-        .gift-box {
-            background: linear-gradient(135deg, #ffffff, #f8fafc);
-            padding: 40px 25px;
-            border-radius: 20px;
-            text-align: center;
-            color: #1e293b;
-            max-width: 90%;
-            width: 380px;
-            transform: scale(0.8);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            position: relative;
-            border: 4px solid var(--accent);
-        }
-        .gift-overlay.active .gift-box { transform: scale(1); }
+        .card { background: var(--white); padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .task-list { display: flex; flex-direction: column; gap: 15px; }
+        .task-item { display: flex; align-items: center; justify-content: space-between; background: var(--primary-light); padding: 15px; border-radius: 12px; }
+        .task-info { display: flex; align-items: center; gap: 15px; }
+        .task-icon { width: 45px; height: 45px; background: var(--primary); color: var(--white); display: flex; justify-content: center; align-items: center; border-radius: 12px; font-size: 20px; }
+        .task-text h4 { margin: 0; font-size: 15px; color: var(--text-main); }
+        .task-text p { margin: 0; font-size: 12px; color: var(--primary); font-weight: 600; }
+        .btn-small { padding: 8px 15px; font-size: 13px; border-radius: 50px; min-width: 80px; text-align: center; }
         
-        .gift-icon {
-            font-size: 4.5rem; color: #f43f5e; margin-bottom: 10px; animation: bounce 2s infinite;
-        }
+        select, .withdraw-input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 15px; margin-bottom: 15px; outline: none; }
         
-        .gift-title {
-            font-size: 2.2rem; 
-            color: #064E3B; 
-            margin-bottom: 5px; 
-            font-weight: 700;
-        }
+        /* Bottom Nav */
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; background: var(--white); display: flex; justify-content: space-around; padding: 10px 0; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+        .nav-item { text-align: center; color: var(--text-muted); font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+        .nav-item i { font-size: 20px; }
+        .nav-item.active { color: var(--primary); font-weight: 600; }
         
-        .gift-desc {
-            font-size: 1.2rem; 
-            color: #334155; 
-            margin-bottom: 25px; 
-            line-height: 1.6;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        .eidi-amount {
-            background: linear-gradient(45deg, #FBBF24, #F59E0B);
-            color: #000; 
-            padding: 15px; 
-            border-radius: 12px; 
-            font-size: 1.6rem; 
-            font-weight: 700; 
-            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
-        }
-        
-        .close-gift {
-            position: absolute; top: 10px; right: 15px; font-size: 1.8rem; color: #94a3b8; cursor: pointer; transition: 0.3s;
-        }
-        .close-gift:hover { color: #f43f5e; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse-gift {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(244, 63, 94, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-15px); }
-            60% { transform: translateY(-8px); }
-        }
+        /* Overlays & Toasts */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 12px 20px; border-radius: 50px; font-size: 14px; z-index: 1000; display: none; }
+        #ad-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); color: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 500; text-align: center; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="theme-ramadan" id="appBody">
+<body>
 
-    <div class="app-wrapper">
-        <!-- Theme Controls -->
-        <div class="theme-selector">
-            <i class="fa-solid fa-moon"></i>
-            <label for="themeSelect">Vibes:</label>
-            <select id="themeSelect" onchange="changeTheme()">
-                <option value="ramadan">Ramadan Classic</option>
-                <option value="midnight">Midnight Moon</option>
-                <option value="sunset">Sunset Lantern</option>
-            </select>
+    <div class="app-container">
+        <!-- Toast & Ad Overlay -->
+        <div id="toast" class="toast"></div>
+        <div id="ad-overlay">
+            <div class="loader"></div>
+            <h3 id="overlay-title">Processing...</h3>
+            <p id="ad-timer" style="margin-top: 10px;">Please wait 5 seconds</p>
         </div>
 
-        <!-- The Greeting Card -->
-        <div class="card" id="greetingCard">
-            <div class="moon"></div>
+        <!-- ================= LOGIN VIEW ================= -->
+        <div id="auth-view">
+            <div class="auth-logo"><i class="fas fa-gift"></i></div>
+            <h2 class="auth-title">Reward Earning App</h2>
+            <div class="input-group"><input type="text" id="username" placeholder="Enter Full Name"></div>
+            <div class="input-group"><input type="email" id="email" placeholder="Email Address"></div>
+            <div class="input-group"><input type="password" id="password" placeholder="Password"></div>
+            <button class="btn" onclick="handleLogin()">Login / Register</button>
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 14px;">Enter details to simulate login</p>
+        </div>
 
-            <div class="mosque-bg">
-                <svg viewBox="0 0 800 200" preserveAspectRatio="none" style="width:100%; height:140px;" xmlns="http://www.w3.org/2000/svg">
-                    <path class="mosque-fill" d="M0,200 L0,150 L50,150 L50,100 L60,80 L70,100 L70,150 L200,150 C200,150 250,60 300,60 C350,60 400,150 400,150 L500,150 L500,80 L515,50 L530,80 L530,150 L650,150 C650,150 700,80 750,80 C800,80 800,150 800,150 L800,200 Z" />
-                </svg>
+        <!-- ================= MAIN APP VIEW ================= -->
+        <div id="main-view">
+            <div class="header">
+                <div class="app-brand"><i class="fas fa-gift"></i> RewardApp</div>
+                <div class="balance-badge"><i class="fas fa-coins"></i> <span id="coin-balance">0</span></div>
             </div>
 
-            <div class="card-content">
-                <h1 class="title">Eid Mubarak</h1>
+            <div class="content-area">
                 
-                <div id="inputSection">
-                    <p class="subtitle" style="font-family: 'Hind Siliguri', sans-serif;">কার জন্য কার্ড বানাচ্ছেন এবং আপনার নাম দিন!</p>
-                    <div class="controls">
-                        <!-- Added Sender Name Input Here -->
-                        <input type="text" id="nameInput" class="name-input" placeholder="বন্ধুর নাম (যাকে পাঠাবেন)" autocomplete="off"/>
-                        <input type="text" id="senderNameInput" class="name-input" placeholder="আপনার নাম (যিনি পাঠাচ্ছেন)" autocomplete="off"/>
-                        
-                        <button class="btn-primary" onclick="generateWish()">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> কার্ড তৈরি করুন
+                <!-- HOME TAB -->
+                <div id="tab-home" class="tab-content active">
+                    <h3 style="margin-bottom: 15px; color: var(--text-main);">Welcome, <span id="user-display">User</span>!</h3>
+                    <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
+                        <h2>Daily Check-in</h2>
+                        <p style="font-size: 14px; margin: 5px 0 15px 0;">Claim your daily free bonus coins.</p>
+                        <button class="btn" id="btn-daily" onclick="claimDailyBonus()" style="background: white; color: var(--primary);">
+                            <i class="fas fa-calendar-check"></i> Claim 50 Coins
                         </button>
                     </div>
-                </div>
-
-                <div id="resultSection" class="wish-result">
-                    <span class="name-highlight" id="displayName"></span> 
-                    
-                    <!-- Unique Sender Name Display -->
-                    <div class="sender-signature">
-                        <span class="sender-prefix"><i class="fa-solid fa-pen-nib"></i> ভালোবাসা ও শুভেচ্ছান্তে-</span>
-                        <div class="sender-signature-text" id="displaySenderName"></div>
+                    <h4 style="margin-bottom: 10px;">Quick Actions</h4>
+                    <div class="task-list">
+                        <div class="task-item">
+                            <div class="task-info">
+                                <div class="task-icon"><i class="fas fa-play"></i></div>
+                                <div class="task-text"><h4>Watch Video</h4><p>+20 Coins</p></div>
+                            </div>
+                            <button class="btn btn-small task-btn" data-task-id="home_vid" data-original-text="Start" onclick="completeTask(20, 'Watch Video', this, 'home_vid')">Start</button>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-info">
+                                <div class="task-icon" style="background: var(--gold);"><i class="fas fa-user-plus"></i></div>
+                                <div class="task-text"><h4>Invite Friend</h4><p>+100 Coins</p></div>
+                            </div>
+                            <button class="btn btn-small" onclick="switchTab('tab-referral', document.querySelectorAll('.nav-item')[2])">Invite</button>
+                        </div>
                     </div>
-                    
-                    <!-- Beautiful Bengali Quote -->
-                    <div id="wishMessage" class="wish-message">ঈদের এই পবিত্র দিনে তোমার জীবন ভরে উঠুক অনাবিল আনন্দে। মহান আল্লাহ তোমার সকল নেক আশা কবুল করুন। 🌙 ঈদ মোবারক!</div>
-                    
-                    <button class="btn-change-wish" onclick="changeWishMessage()" id="changeTextBtn">
-                        <i class="fa-solid fa-feather"></i> লেখা পরিবর্তন করুন
-                    </button>
                 </div>
-            </div>
-        </div>
 
-        <!-- Actions Container -->
-        <div class="actions-wrapper" id="actionsSection">
-            <button class="btn-action btn-gift" onclick="openGift()">
-                <i class="fa-solid fa-gift"></i> স্পেশাল গিফট খুলুন 🎁
-            </button>
+                <!-- TASKS TAB -->
+                <div id="tab-tasks" class="tab-content">
+                    <h3 style="margin-bottom: 15px;">Earn More Coins</h3>
+                    <div class="task-list">
+                        <div class="task-item">
+                            <div class="task-info">
+                                <div class="task-icon" style="background: var(--green);"><i class="fas fa-money-check-alt"></i></div>
+                                <div class="task-text"><h4>Earn Money</h4><p>+200 Coins</p></div>
+                            </div>
+                            <button class="btn btn-small task-btn" data-task-id="task_earn_money" data-original-text="Earn" onclick="completeTask(200, 'Earn Money', this, 'task_earn_money')">Earn</button>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-info">
+                                <div class="task-icon" style="background: var(--orange);"><i class="fas fa-fire"></i></div>
+                                <div class="task-text"><h4>Special Offer</h4><p>+300 Coins</p></div>
+                            </div>
+                            <button class="btn btn-small task-btn" data-task-id="task_special_offer" data-original-text="Claim" onclick="completeTask(300, 'Special Offer', this, 'task_special_offer')">Claim</button>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-info">
+                                <div class="task-icon" style="background: #e83e8c;"><i class="fab fa-instagram"></i></div>
+                                <div class="task-text"><h4>Follow Instagram</h4><p>+50 Coins</p></div>
+                            </div>
+                            <button class="btn btn-small task-btn" data-task-id="task_ig" data-original-text="Go" onclick="completeTask(50, 'Instagram Follow', this, 'task_ig')">Go</button>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-info">
+                                <div class="task-icon" style="background: #17a2b8;"><i class="fas fa-star"></i></div>
+                                <div class="task-text"><h4>Rate our App</h4><p>+100 Coins</p></div>
+                            </div>
+                            <button class="btn btn-small task-btn" data-task-id="task_rate" data-original-text="Rate" onclick="completeTask(100, 'App Rating', this, 'task_rate')">Rate</button>
+                        </div>
+                    </div>
+                </div>
 
-            <button class="btn-action btn-download" onclick="downloadImage()">
-                <i class="fa-solid fa-download"></i> কার্ড সেভ করুন
-            </button>
-            
-            <div class="share-row">
-                <button class="btn-action btn-wa" onclick="shareWhatsApp()">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </button>
-                <button class="btn-action btn-messenger" onclick="shareMessenger()">
-                    <i class="fa-brands fa-facebook-messenger"></i> Messenger
-                </button>
+                <!-- REFERRAL TAB -->
+                <div id="tab-referral" class="tab-content">
+                    <div class="card" style="text-align: center;">
+                        <i class="fas fa-users" style="font-size: 50px; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h3>Invite & Earn</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin: 10px 0;">Share code with friends and earn 100 coins!</p>
+                        <div style="background: var(--bg-color); padding: 15px; border-radius: 10px; margin: 20px 0; font-size: 20px; font-weight: bold; letter-spacing: 2px;">
+                            REF-<span id="ref-code">1A2B3C</span>
+                        </div>
+                        <button class="btn" onclick="copyReferral()"><i class="fas fa-copy"></i> Copy Code</button>
+                    </div>
+                </div>
+
+                <!-- WITHDRAW TAB -->
+                <div id="tab-withdraw" class="tab-content">
+                    <div class="card">
+                        <h3 style="margin-bottom: 5px;">Withdraw Funds</h3>
+                        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Minimum withdraw: <strong>1000 Coins</strong></p>
+                        <label style="font-size: 14px; font-weight: 500;">Select Payment Method</label>
+                        <select id="payment-method">
+                            <option value="bkash">bKash</option>
+                            <option value="nagad">Nagad</option>
+                            <option value="rocket">Rocket</option>
+                        </select>
+                        <label style="font-size: 14px; font-weight: 500;">Account Number</label>
+                        <input type="text" id="withdraw-account" class="withdraw-input" placeholder="Enter details...">
+                        <label style="font-size: 14px; font-weight: 500;">Coins to Withdraw</label>
+                        <input type="number" id="withdraw-amount" class="withdraw-input" placeholder="e.g. 1000">
+                        <button class="btn" onclick="submitWithdraw()" style="background: var(--green);"><i class="fas fa-money-bill-wave"></i> Request Withdraw</button>
+                    </div>
+                </div>
+
+                <!-- PROFILE TAB -->
+                <div id="tab-profile" class="tab-content">
+                    <div class="card" style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 15px auto;"><i class="fas fa-user"></i></div>
+                        <h3 id="profile-name">User Name</h3>
+                        <p id="profile-email" style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">user@email.com</p>
+                        <div style="display: flex; justify-content: space-around; background: var(--bg-color); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                            <div><h4 id="profile-coins" style="color: var(--primary);">0</h4><span style="font-size: 12px; color: var(--text-muted);">Total Coins</span></div>
+                            <div><h4 style="color: var(--primary);">0</h4><span style="font-size: 12px; color: var(--text-muted);">Referrals</span></div>
+                        </div>
+                        <button class="btn" onclick="logout()" style="background: #dc3545;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </div>
+                </div>
+
             </div>
-            
-            <button class="btn-action btn-reset" onclick="resetApp()">
-                নতুন কার্ড বানান
-            </button>
+
+            <!-- BOTTOM NAVIGATION -->
+            <div class="bottom-nav">
+                <div class="nav-item active" onclick="switchTab('tab-home', this)"><i class="fas fa-home"></i><span>Home</span></div>
+                <div class="nav-item" onclick="switchTab('tab-tasks', this)"><i class="fas fa-tasks"></i><span>Tasks</span></div>
+                <div class="nav-item" onclick="switchTab('tab-referral', this)"><i class="fas fa-user-friends"></i><span>Referral</span></div>
+                <div class="nav-item" onclick="switchTab('tab-withdraw', this)"><i class="fas fa-wallet"></i><span>Withdraw</span></div>
+                <div class="nav-item" onclick="switchTab('tab-profile', this)"><i class="fas fa-user"></i><span>Profile</span></div>
+            </div>
+
         </div>
     </div>
 
-    <!-- Special Gift Modal -->
-    <div class="gift-overlay" id="giftOverlay">
-        <div class="gift-box">
-            <span class="close-gift" onclick="closeGift()">&times;</span>
-            <div class="gift-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
-            <h2 class="gift-title">ঈদ মোবারক!</h2>
-            <!-- Gift Description will be dynamically updated by JS -->
-            <p class="gift-desc" id="giftDescText"></p>
-            <div class="eidi-amount">৳ ১,০০০ ভার্চুয়াল ঈদি! 💸</div>
-        </div>
-    </div>
+    <!-- ================= FIREBASE SDK CONFIGURATION (ভবিষ্যতে ব্যবহারের জন্য) ================= -->
+    <!-- 
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+    -->
 
-    <!-- JavaScript Functions -->
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // Beautiful Bengali Quotes
-        const wishes =[
-            "ঈদের এই পবিত্র দিনে তোমার জীবন ভরে উঠুক অনাবিল আনন্দে। মহান আল্লাহ তোমার সকল নেক আশা কবুল করুন। 🌙 ঈদ মোবারক!",
-            "নতুন চাঁদ, নতুন দিন, আজ হলো খুশির দিন। ঈদ এসেছে হাসিমুখে, আনন্দ থাকুক তোমার বুকে। 🕌 ঈদ মোবারক!",
-            "ঈদের আনন্দ ছড়িয়ে পড়ুক তোমার জীবনের প্রতিটি প্রান্তে। পরিবার ও আপনজনদের নিয়ে সুন্দর কাটুক তোমার ঈদ। ✨ ঈদ মোবারক!",
-            "এক মাসের সিয়াম সাধনার পর এলো খুশির ঈদ। এই আনন্দঘন মুহূর্তে তোমার সব দুঃখ-কষ্ট দূর হয়ে যাক। 💫 ঈদ মোবারক!",
-            "দূরত্ব যতই হোক, হৃদয়ের টান কখনো কমে না। আমার অন্তরের অন্তস্তল থেকে তোমার জন্য রইলো ঈদের একরাশ ভালোবাসা। 💖 ঈদ মোবারক!"
-        ];
-        let currentWishIndex = 0;
+        let currentUser = null;
+        let balance = 0;
+        const COOLDOWN_MINUTES = 30; // টাস্কের কুলডাউন সময়
 
-        // Load Both Names From URL on Page Load
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const name = params.get("name");
-            const sender = params.get("sender");
-
-            if(name && sender){
-                document.getElementById("nameInput").value = name;
-                document.getElementById("senderNameInput").value = sender;
-                setupCard(name, sender);
-            } else if (name) {
-                // Fallback for previous links
-                document.getElementById("nameInput").value = name;
-                document.getElementById("senderNameInput").value = "তোমার বন্ধু";
-                setupCard(name, "তোমার বন্ধু");
+        // App Initialization
+        window.onload = () => {
+            const savedUser = localStorage.getItem('rewardApp_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                balance = parseInt(localStorage.getItem('rewardApp_balance')) || 0;
+                showMainApp();
             }
+            setInterval(updateAllButtons, 1000);
         };
 
-        function changeTheme() {
-            const theme = document.getElementById('themeSelect').value;
-            document.getElementById('appBody').className = `theme-${theme}`;
+        // 1. Authentication Functions
+        function handleLogin() {
+            const name = document.getElementById('username').value || 'Guest User';
+            const email = document.getElementById('email').value || 'guest@example.com';
+            
+            // Generate simple referral code
+            const refCode = Math.random().toString(36).substr(2, 6).toUpperCase();
+            currentUser = { name, email, refCode };
+            
+            localStorage.setItem('rewardApp_user', JSON.stringify(currentUser));
+            
+            if(!localStorage.getItem('rewardApp_balance')) {
+                balance = 100; // Welcome bonus
+                localStorage.setItem('rewardApp_balance', balance); 
+            } else {
+                balance = parseInt(localStorage.getItem('rewardApp_balance'));
+            }
+
+            showMainApp();
+            showToast("Login Successful! Welcome bonus loaded.");
         }
 
-        function fireConfetti() {
-            const duration = 3000;
-            const end = Date.now() + duration;
+        function logout() {
+            localStorage.removeItem('rewardApp_user');
+            document.getElementById('main-view').style.display = 'none';
+            document.getElementById('auth-view').style.display = 'flex';
+        }
 
-            (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors:['#FBBF24', '#ffffff', '#10b981'] });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors:['#FBBF24', '#ffffff', '#10b981'] });
+        function showMainApp() {
+            document.getElementById('auth-view').style.display = 'none';
+            document.getElementById('main-view').style.display = 'flex';
+            
+            document.getElementById('user-display').innerText = currentUser.name;
+            document.getElementById('profile-name').innerText = currentUser.name;
+            document.getElementById('profile-email').innerText = currentUser.email;
+            document.getElementById('ref-code').innerText = currentUser.refCode;
+            
+            updateBalanceUI();
+            checkDailyStatus();
+            updateAllButtons();
+        }
 
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
+        // 2. Navigation
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if(element) element.classList.add('active');
+        }
+
+        // 3. Balance & Daily Claim
+        function updateBalanceUI() {
+            document.getElementById('coin-balance').innerText = balance;
+            document.getElementById('profile-coins').innerText = balance;
+            localStorage.setItem('rewardApp_balance', balance);
+        }
+
+        function addCoins(amount, message) {
+            balance += amount;
+            updateBalanceUI();
+            showToast(`+${amount} Coins: ${message}`);
+        }
+
+        function claimDailyBonus() {
+            const lastClaim = localStorage.getItem('rewardApp_daily');
+            const today = new Date().toDateString();
+
+            if (lastClaim === today) {
+                showToast("You already claimed your bonus today!");
+                return;
+            }
+
+            localStorage.setItem('rewardApp_daily', today);
+            addCoins(50, "Daily Check-in");
+            checkDailyStatus();
+        }
+
+        function checkDailyStatus() {
+            const lastClaim = localStorage.getItem('rewardApp_daily');
+            const btn = document.getElementById('btn-daily');
+            if (lastClaim === new Date().toDateString()) {
+                btn.innerText = "Claimed Today";
+                btn.disabled = true;
+            }
+        }
+
+        // 4. Task Function with 5 Sec Timer
+        function completeTask(reward, taskName, btn, taskId) {
+            if(btn.disabled) return;
+
+            const overlay = document.getElementById('ad-overlay');
+            const timerText = document.getElementById('ad-timer');
+            const overlayTitle = document.getElementById('overlay-title');
+            
+            overlayTitle.innerText = `Processing: ${taskName}...`;
+            overlay.style.display = 'flex';
+            
+            let timeLeft = 5;
+            timerText.innerText = `Please wait ${timeLeft} seconds`;
+
+            const interval = setInterval(() => {
+                timeLeft--;
+                timerText.innerText = `Please wait ${timeLeft} seconds`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    overlay.style.display = 'none';
+                    addCoins(reward, taskName);
+                    
+                    // Start Cooldown
+                    localStorage.setItem(`rewardApp_cooldown_${taskId}`, Date.now());
+                    updateAllButtons(); 
                 }
-            }());
+            }, 1000);
         }
 
-        function setupCard(name, sender) {
-            document.getElementById('displayName').innerText = name;
-            document.getElementById('displaySenderName').innerText = sender;
-            
-            document.getElementById('inputSection').style.display = 'none';
-            document.getElementById('resultSection').style.display = 'block';
-            document.getElementById('actionsSection').style.display = 'flex';
+        // 5. Cooldown System
+        function updateAllButtons() {
+            document.querySelectorAll('.task-btn').forEach(btn => {
+                const taskId = btn.getAttribute('data-task-id');
+                const savedTime = localStorage.getItem(`rewardApp_cooldown_${taskId}`);
+                
+                if (savedTime) {
+                    const elapsed = Date.now() - parseInt(savedTime);
+                    const cooldownTime = COOLDOWN_MINUTES * 60 * 1000;
 
-            // Safe HTML injection for both names
-            document.getElementById('giftDescText').innerHTML = `প্রিয় <b style="color: #f43f5e;">${name}</b>, আপনার জন্য রইলো <b style="color: #059669;">${sender}</b> এর পক্ষ থেকে স্পেশাল ঈদ সেলামি ও অনেক অনেক ভালোবাসা!`;
-
-            fireConfetti();
-        }
-
-        // Generate the Card Data
-        function generateWish() {
-            const nameInput = document.getElementById('nameInput');
-            const senderInput = document.getElementById('senderNameInput');
-            const name = nameInput.value.trim();
-            const sender = senderInput.value.trim();
-            
-            let hasError = false;
-
-            if(!name) {
-                nameInput.style.border = "2px solid #ef4444";
-                nameInput.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.5)";
-                setTimeout(() => {
-                    nameInput.style.border = "2px solid rgba(255,255,255,0.2)";
-                    nameInput.style.boxShadow = "inset 0 2px 5px rgba(0,0,0,0.5)";
-                }, 1000);
-                hasError = true;
-            }
-
-            if(!sender) {
-                senderInput.style.border = "2px solid #ef4444";
-                senderInput.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.5)";
-                setTimeout(() => {
-                    senderInput.style.border = "2px solid rgba(255,255,255,0.2)";
-                    senderInput.style.boxShadow = "inset 0 2px 5px rgba(0,0,0,0.5)";
-                }, 1000);
-                hasError = true;
-            }
-
-            if(hasError) return;
-
-            // Update URL dynamically with both parameters
-            try {
-                let currentUrl = window.location.href.split('?')[0];
-                let shareUrl = currentUrl + "?name=" + encodeURIComponent(name) + "&sender=" + encodeURIComponent(sender);
-                window.history.pushState({}, "", shareUrl);
-            } catch (e) {
-                console.warn("URL Update failed (probably running locally).");
-            }
-
-            setupCard(name, sender);
-        }
-
-        function changeWishMessage() {
-            currentWishIndex = (currentWishIndex + 1) % wishes.length;
-            const wishEl = document.getElementById('wishMessage');
-            
-            wishEl.style.opacity = 0;
-            setTimeout(() => {
-                wishEl.innerText = wishes[currentWishIndex];
-                wishEl.style.opacity = 1;
-            }, 300);
-        }
-
-        function openGift() {
-            const modal = document.getElementById('giftOverlay');
-            modal.classList.add('active');
-            
-            confetti({
-                particleCount: 150, spread: 100, origin: { y: 0.5 },
-                colors:['#FBBF24', '#F59E0B', '#fbbf24'], shapes:['circle'], scalar: 1.2
+                    if (elapsed < cooldownTime) {
+                        btn.disabled = true;
+                        const remaining = cooldownTime - elapsed;
+                        const min = Math.floor(remaining / 60000);
+                        const sec = Math.floor((remaining % 60000) / 1000);
+                        btn.innerText = `${min}m ${sec}s`;
+                    } else {
+                        btn.disabled = false;
+                        btn.innerText = btn.getAttribute('data-original-text');
+                    }
+                }
             });
         }
 
-        function closeGift() {
-            document.getElementById('giftOverlay').classList.remove('active');
+        // 6. Referral & Withdraw & Toast
+        function copyReferral() {
+            navigator.clipboard.writeText(document.getElementById('ref-code').innerText);
+            showToast("Referral Code Copied!");
         }
 
-        function downloadImage() {
-            const card = document.getElementById('greetingCard');
-            const btn = document.querySelector('.btn-download');
-            const changeBtn = document.getElementById('changeTextBtn');
-            
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সেভ হচ্ছে...';
-            changeBtn.style.display = 'none'; 
-            
-            const originalBg = card.style.background;
-            const currentTheme = getComputedStyle(document.body).getPropertyValue('--bg-start').trim();
-            card.style.backgroundColor = currentTheme;
+        function submitWithdraw() {
+            const account = document.getElementById('withdraw-account').value;
+            const amount = parseInt(document.getElementById('withdraw-amount').value);
+            const method = document.getElementById('payment-method').value;
 
-            setTimeout(() => {
-                html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = `Eid_Mubarak_From_${document.getElementById('senderNameInput').value.trim()}.png`;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                    
-                    btn.innerHTML = '<i class="fa-solid fa-download"></i> কার্ড সেভ করুন';
-                    changeBtn.style.display = 'inline-block';
-                    card.style.background = originalBg;
-                }).catch(err => {
-                    alert("Something went wrong with download.");
-                    btn.innerHTML = '<i class="fa-solid fa-download"></i> কার্ড সেভ করুন';
-                    changeBtn.style.display = 'inline-block';
-                    card.style.background = originalBg;
-                });
-            }, 300);
+            if (!account || !amount) { showToast("Please fill all fields!"); return; }
+            if (amount < 1000) { showToast("Minimum withdraw is 1000 Coins!"); return; }
+            if (amount > balance) { showToast("Insufficient Balance!"); return; }
+
+            balance -= amount;
+            updateBalanceUI();
+            document.getElementById('withdraw-account').value = '';
+            document.getElementById('withdraw-amount').value = '';
+            showToast(`Success! ${amount} coins requested via ${method.toUpperCase()}`);
         }
 
-        function shareWhatsApp() {
-            const name = document.getElementById('nameInput').value.trim();
-            const sender = document.getElementById('senderNameInput').value.trim();
-            const currentWish = document.getElementById('wishMessage').innerText;
-            const url = window.location.href; 
-            
-            const text = `🌙 ঈদ মোবারক ${name}! 🌙\n\n${currentWish}\n\n✨ ভালোবাসা ও শুভেচ্ছান্তে: ${sender}\n\n🎁 তোমার কার্ডটি তৈরি করো আর ভার্চুয়াল সেলামি নিয়ে নাও এখান থেকে:\n${url}`;
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-        }
-
-        function shareMessenger() {
-            const name = document.getElementById('nameInput').value.trim();
-            const sender = document.getElementById('senderNameInput').value.trim();
-            const currentWish = document.getElementById('wishMessage').innerText;
-            const url = window.location.href; 
-            
-            const text = `🌙 ঈদ মোবারক ${name}! 🌙\n\n${currentWish}\n\n✨ ভালোবাসা ও শুভেচ্ছান্তে: ${sender}\n\n🎁 তোমার কার্ডটি তৈরি করো আর ভার্চুয়াল সেলামি নিয়ে নাও এখান থেকে:\n${url}`;
-            
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert("মেসেজটি কপি করা হয়েছে! এখন আপনি এটি সরাসরি Messenger-এ পেস্ট করতে পারবেন।");
-                });
-            } else {
-                alert("দয়া করে লিংকটি কপি করে মেসেঞ্জারে শেয়ার করুন।");
-            }
-
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                window.location.href = `fb-messenger://share/?link=${encodeURIComponent(url)}`;
-            } else {
-                window.open('https://www.messenger.com/', '_blank');
-            }
-        }
-
-        function resetApp() {
-            document.getElementById('nameInput').value = '';
-            document.getElementById('senderNameInput').value = '';
-            document.getElementById('inputSection').style.display = 'block';
-            document.getElementById('resultSection').style.display = 'none';
-            document.getElementById('actionsSection').style.display = 'none';
-            closeGift();
-            
-            try {
-                let currentUrl = window.location.href.split('?')[0];
-                window.history.pushState({}, "", currentUrl);
-            } catch (e) {
-                console.warn("Could not clear URL");
-            }
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
     </script>
 </body>
-</html>
+    </html>
